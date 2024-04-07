@@ -21,4 +21,7 @@ commands:
   clearchat:
    description: "Clears chat! crazy"
    aliases: [cc]
+  tps:
+   description: "Shows the cool tps! crazy"
+
 

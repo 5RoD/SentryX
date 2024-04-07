@@ -1,8 +1,6 @@
 package rod.sentryx.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import rod.sentryx.util.CC;
-
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Essentials implements CommandExecutor {
@@ -28,6 +24,7 @@ public class Essentials implements CommandExecutor {
 
         Player player = (Player) sender;
 
+
         String noPermission = CC.translate("&cYou do not have permission to run this command!");
 
         switch (label.toLowerCase()) {
@@ -39,6 +36,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "gms":
                 if (player.hasPermission("rod.staff.gms")) {
                     player.setGameMode(GameMode.SURVIVAL);
@@ -47,6 +45,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "gmsp":
                 if (player.hasPermission("rod.staff.gmsp")) {
                     player.setGameMode(GameMode.SPECTATOR);
@@ -55,6 +54,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "gma":
                 if (player.hasPermission("rod.staff.gma")) {
                     player.setGameMode(GameMode.ADVENTURE);
@@ -63,6 +63,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "heal":
                 if (player.hasPermission("rod.staff.heal")) {
                     player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
@@ -73,6 +74,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "feed":
                 if (player.hasPermission("rod.feed")) {
                     player.setFoodLevel(20);
@@ -82,6 +84,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "cc":
             case "clearchat":
                 if (player.hasPermission("rod.staff.clearchat")) {
@@ -93,6 +96,7 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "more":
                 if (player.hasPermission("rod.staff.more")) {
                     ItemStack item = player.getInventory().getItemInMainHand();
@@ -106,14 +110,27 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+
             case "tps":
-                if (player.hasPermission("*")) {
-                    player.sendMessage(Arrays.toString(Bukkit.getTPS()));
-                } else if (!player.hasPermission("*")) {
+                if (!player.hasPermission("*")) {
                     player.sendMessage(noPermission);
+                    return true;
                 }
-                    break;
+
+                double tps = Bukkit.getTPS()[0];
+                double tps1m = Bukkit.getTPS()[1];
+                String formattedTps = String.format("%.2f (5s), %.2f (1m)", tps, tps1m);
+
+
+                if (tps >= 19.2) {
+                    player.sendMessage(CC.translate("&eCurrent TPS&f: &a" + formattedTps + " &eThe server is running: &aSmoothly!"));
+                } else if (tps >= 18.5) {
+                    player.sendMessage(CC.translate("&eCurrent TPS&f: &e" + formattedTps + " &eThe server is running: Okay!"));
+                } else {
+                    player.sendMessage(CC.translate("&eCurrent TPS&f: &c" + formattedTps + " &eThe server is running: &cLaggy!!"));
                 }
+                break;
+        }
         return true;
     }
 }
