@@ -1,0 +1,12 @@
+#if you have op or * permission you will have all of the permissions below
+#this is only a file and you can not change the permissions yet :)
+
+Permissions:
+  - "rod.staff.gmc"
+  - "rod.staff.gms"
+  - "rod.staff.gmsp"
+  - "rod.staff.gma"
+  - "rod.staff.heal"
+  - "rod.staff.clearchat"
+  - "rod.staff.more"
+  - "rod.feed"
