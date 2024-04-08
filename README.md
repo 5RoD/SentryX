@@ -13,7 +13,7 @@ Security features:
   - gmsp
   - feed
   - heal
-  - more
+  - more (64x's the item in ur hand)
   - DeathMessage
   - JoinMessage
   - SleepBar (Bossbar when u sleep)
