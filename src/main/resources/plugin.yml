@@ -23,5 +23,7 @@ commands:
    aliases: [cc]
   tps:
    description: "Shows the cool tps! crazy"
+  server:
+   description: "Shows server info! crazy"
 
 

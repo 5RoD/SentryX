@@ -29,8 +29,9 @@ public class AntiOP implements Listener {
                     p.setOp(false);
                 }
             }
-        }, 20L, 20L);
+        }, 200000L, 200000L);
     }
+
 
 
     @EventHandler

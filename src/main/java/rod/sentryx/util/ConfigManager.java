@@ -39,7 +39,6 @@ public class ConfigManager {
                 plugin.saveResource(Permissions, false);
 
             }
-
         config = YamlConfiguration.loadConfiguration(PermsFile);
     }
 

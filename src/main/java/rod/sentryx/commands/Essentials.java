@@ -1,5 +1,11 @@
 package rod.sentryx.commands;
 
+import me.lucko.spark.api.Spark;
+import me.lucko.spark.api.SparkProvider;
+import me.lucko.spark.api.statistic.StatisticWindow;
+import me.lucko.spark.api.statistic.misc.DoubleAverageInfo;
+import me.lucko.spark.api.statistic.types.DoubleStatistic;
+import me.lucko.spark.api.statistic.types.GenericStatistic;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
@@ -13,6 +19,8 @@ import rod.sentryx.util.CC;
 import java.util.Objects;
 
 public class Essentials implements CommandExecutor {
+
+
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -110,17 +118,28 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(noPermission);
                 }
                 break;
+        // soon
+        //    case "ping":
+        //    case "lag":
+        //       int ping = player.getPing();
+        //        if(ping <= 60) {
+        //            player.sendMessage(CC.translate("&ePing&f: &a" + ping + "&aYour ping is amazing!"));
+        //
+        //        }else if(ping < 150) {
+        //            player.sendMessage(CC.translate("&ePing&f: &e" + ping + "&eYour ping is okay"));
+        //    }else if(ping >= 160){
+        //            player.sendMessage(CC.translate("&ePing&f: &e" + ping + "&cYour ping is lagging fix asap!"));
+        //        }
+        //        break;
 
             case "tps":
-                if (!player.hasPermission("*")) {
+                if (!player.hasPermission("rod.staff.tps")) {
                     player.sendMessage(noPermission);
                     return true;
                 }
-
                 double tps = Bukkit.getTPS()[0];
                 double tps1m = Bukkit.getTPS()[1];
                 String formattedTps = String.format("%.2f (5s), %.2f (1m)", tps, tps1m);
-
 
                 if (tps >= 19.2) {
                     player.sendMessage(CC.translate("&eCurrent TPS&f: &a" + formattedTps + " &eThe server is running: &aSmoothly!"));
@@ -130,7 +149,52 @@ public class Essentials implements CommandExecutor {
                     player.sendMessage(CC.translate("&eCurrent TPS&f: &c" + formattedTps + " &eThe server is running: &cLaggy!!"));
                 }
                 break;
+            case "server":
+                if (!player.hasPermission("rod.staff.server")) {
+                    player.sendMessage(noPermission);
+                    return true;
+                }
+                Spark spark = SparkProvider.get();
+                Server server = Bukkit.getServer();
+
+
+                //GETTING THE TPS HERE
+                DoubleStatistic<StatisticWindow.TicksPerSecond> tpsx = spark.tps();
+                assert tpsx != null;
+                String tpsformatted = String.format("%.2f", tpsx.poll(StatisticWindow.TicksPerSecond.SECONDS_10));
+
+                //GETTING THE MSPT HERE
+                GenericStatistic<DoubleAverageInfo, StatisticWindow.MillisPerTick> sparkmspt = spark.mspt();
+                assert sparkmspt != null;
+                DoubleAverageInfo mspt = sparkmspt.poll(StatisticWindow.MillisPerTick.SECONDS_10);
+                double translatedmspt = mspt.mean();
+                String formattedmspt = String.format("%.2f", translatedmspt);
+
+                //GETTING THE CPU USAGE HERE
+                DoubleStatistic<StatisticWindow.CpuUsage> cpuUsage = spark.cpuSystem();
+                DoubleStatistic<StatisticWindow.CpuUsage> cpuProcess = spark.cpuProcess();
+
+                double processlastMin = cpuProcess.poll(StatisticWindow.CpuUsage.SECONDS_10);
+                double sysLastMin = cpuUsage.poll(StatisticWindow.CpuUsage.SECONDS_10);
+
+                //SERVER INFORMATION
+                String serverName = server.getVersion();
+                int maxPlayers = server.getMaxPlayers();
+                int onlinePlayers = server.getOnlinePlayers().size();
+                String pw = player.getWorld().getName();
+                int pingserver = player.getPing();
+
+
+                player.sendMessage(CC.translate("\n&ePerformance/Server Information&f: \n " + "\n&e"+serverName +"\n&eOnline Players&f: &a"+ onlinePlayers +"&f/&c"+ maxPlayers + "\n&eEntities Count&f: &a"+ server.getWorld(pw).getEntities().size() + "\n&eCurrent TPS&f: &a " + tpsformatted + "\n&eCurrent MSPT&f: &a" + formattedmspt + "\n&eCurrent Ping&f: &a" + pingserver + "\n&eCurrent CPU process/system usage&f: &a" +
+                        processlastMin +"% "+ sysLastMin+"%"));
+
+
+
+                break;
+            }
+            return true;
         }
-        return true;
+
+
     }
-}
+

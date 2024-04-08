@@ -19,7 +19,6 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
     private final SleepBar SleepBar = new SleepBar();
     private final XPMultiplier XPMultiplier = new XPMultiplier();
     private final DeathMessage DeathMessage = new DeathMessage();
-    private AntiOP antiOP;
 
 
     @Override
@@ -32,7 +31,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         configManager.loadPermissionsFile();
 
         // start op check bruh
-        antiOP = new AntiOP(this);
+        AntiOP antiOP = new AntiOP(this);
         antiOP.startOpCheckTask();
 
         getLogger().log(Level.SEVERE, "5RoD Shit Plugin has loaded!");
@@ -46,6 +45,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
         getCommand("gmc").setExecutor(essX);
         getCommand("tps").setExecutor(essX);
+        getCommand("lag").setExecutor(essX);
+        getCommand("server").setExecutor(essX);
         getCommand("gms").setExecutor(essX);
         getCommand("gma").setExecutor(essX);
         getCommand("gmsp").setExecutor(essX);
@@ -53,6 +54,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("feed").setExecutor(essX);
         getCommand("clearchat").setExecutor(essX);
         getCommand("more").setExecutor(essX);
+
     }
 
 }
