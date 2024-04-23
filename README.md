@@ -8,6 +8,13 @@ Security features:
 - Soon more will be added!
   
   Bs features:
+  - gmc
+  - gms
+  - gma
+  - gmsp
+  - feed
+  - heal
+  - more (64x's the item in ur hand)
   - DeathMessage
   - JoinMessage
   - SleepBar (Bossbar when u sleep)
@@ -17,3 +24,4 @@ Security features:
 
 
    ![image](https://github.com/5RoD/SentryX/assets/48499107/c7f08588-bcab-423e-b586-f5ab7c72afb0)
+   ![image](https://github.com/5RoD/SentryX/assets/48499107/a814deed-1c79-42af-9980-b35f71c32fa7)
