@@ -16,9 +16,14 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
     private final Essentials essX = new Essentials();
     private final TamedProtection tamedprotection = new TamedProtection();
     private final JoinMessage joinMessage = new JoinMessage();
-    private final SleepBar SleepBar = new SleepBar();
+    private final bossBar bossBar = new bossBar();
     private final XPMultiplier XPMultiplier = new XPMultiplier();
     private final DeathMessage DeathMessage = new DeathMessage();
+    private final ServerGui ServerGui = new ServerGui(this);
+
+
+
+
 
 
     @Override
@@ -35,7 +40,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         antiOP.startOpCheckTask();
 
         getLogger().log(Level.SEVERE, "5RoD Shit Plugin has loaded!");
-        getServer().getPluginManager().registerEvents(SleepBar, this);
+        getServer().getPluginManager().registerEvents(new ServerGui(this), this);
+        getServer().getPluginManager().registerEvents(bossBar, this);
         getServer().getPluginManager().registerEvents(joinMessage, this);
         getServer().getPluginManager().registerEvents(tamedprotection, this);
         getServer().getPluginManager().registerEvents(XPMultiplier, this);
@@ -44,8 +50,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
         getCommand("gmc").setExecutor(essX);
+        getCommand("servergui").setExecutor(ServerGui);
         getCommand("tps").setExecutor(essX);
-        getCommand("lag").setExecutor(essX);
         getCommand("server").setExecutor(essX);
         getCommand("gms").setExecutor(essX);
         getCommand("gma").setExecutor(essX);

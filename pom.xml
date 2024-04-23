@@ -70,6 +70,11 @@
 
   <dependencies>
       <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-text</artifactId>
+          <version>1.11.0</version> <!-- Use the latest version -->
+      </dependency>
+      <dependency>
           <groupId>me.lucko</groupId>
           <artifactId>spark-api</artifactId>
           <version>0.1-SNAPSHOT</version>

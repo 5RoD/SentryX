@@ -1,29 +1,27 @@
 name: SentryX
-version: '${project.version}'
 main: rod.sentryx.SentryX
-api-version: '1.20'
-
+version: 1.0-SNAPSHOT
+api-version: 1.20
 commands:
   gmc:
-   description: "Turns you to creative mode! crazy"
-  gms:
-   description: "Turns you to survival mode! crazy"
-  gmsp:
-   description: "Turns you to spectator mode! crazy"
-  gma:
-   description: "Turns you to adventure mode! crazy"
-  heal:
-   description: "Heals you! crazy"
-  feed:
-   description: "Feeds you! crazy"
-  more:
-   description: "Gives you 64 of the current item in your hand! crazy"
-  clearchat:
-   description: "Clears chat! crazy"
-   aliases: [cc]
+    description: Changes game mode to creative
+  servergui:
+    description: Opens server GUI
   tps:
-   description: "Shows the cool tps! crazy"
+    description: Displays TPS
   server:
-   description: "Shows server info! crazy"
-
-
+    description: Server related command
+  gms:
+    description: Changes game mode to survival
+  gma:
+    description: Changes game mode to adventure
+  gmsp:
+    description: Changes game mode to spectator
+  heal:
+    description: Heals the player
+  feed:
+    description: Feeds the player
+  clearchat:
+    description: Clears the chat
+  more:
+    description: Gives more of the item in hand

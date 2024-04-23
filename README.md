@@ -4,6 +4,7 @@ Security plugin!
 Security features:
 - AntiOP
 - TPSCommand
+- Server info
 - Soon more will be added!
   
   Bs features:

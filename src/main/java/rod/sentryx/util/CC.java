@@ -12,5 +12,8 @@ public class CC {
 
 
     }
+    public static String rainbow(String text) {
+        return IridiumColorAPI.rainbow(text, 1);
+    }
 
 }
