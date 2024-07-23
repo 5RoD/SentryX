@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import rod.sentryx.commands.Essentials;
 import rod.sentryx.events.*;
 import rod.sentryx.security.AntiOP;
+import rod.sentryx.security.Auth;
 import rod.sentryx.util.ConfigManager;
 
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
     private final JoinMessage joinMessage = new JoinMessage();
     private final bossBar bossBar = new bossBar();
     private final XPMultiplier XPMultiplier = new XPMultiplier();
+    private final Auth Auth = new Auth();
     private final DeathMessage DeathMessage = new DeathMessage();
     private final ServerGui ServerGui = new ServerGui(this);
 
@@ -46,6 +48,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getServer().getPluginManager().registerEvents(tamedprotection, this);
         getServer().getPluginManager().registerEvents(XPMultiplier, this);
         getServer().getPluginManager().registerEvents(DeathMessage, this);
+        getServer().getPluginManager().registerEvents(Auth, this);
 
 
 

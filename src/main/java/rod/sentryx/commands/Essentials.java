@@ -29,7 +29,7 @@ import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.Objects;
 
-
+import static java.lang.String.format;
 
 
 public class Essentials implements CommandExecutor, Listener {
@@ -155,11 +155,10 @@ public class Essentials implements CommandExecutor, Listener {
                 }
                 Spark sparktps = SparkProvider.get();
                 DoubleStatistic<StatisticWindow.TicksPerSecond> sparkTps = sparktps.tps();
-                assert sparkTps != null;
                 double sparktpsformatted5s = sparkTps.poll(StatisticWindow.TicksPerSecond.SECONDS_5);
                 double sparktpsformatted1m = sparkTps.poll(StatisticWindow.TicksPerSecond.MINUTES_1);
 
-                String formattedTps = String.format("%.2f (5s), %.2f (1m)", sparktpsformatted5s, sparktpsformatted1m);
+                String formattedTps = String.format("%.2f (5s), %.2f (1m)" + sparktpsformatted5s + sparktpsformatted1m);
 
                 if (sparktpsformatted5s >= 19.2) {
                     player.sendMessage(CC.translate("&eCurrent TPS&f: &a" + formattedTps + " &eThe server is running: &aSmoothly!"));
