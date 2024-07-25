@@ -1,6 +1,5 @@
 package rod.sentryx.events;
 
-
 import me.lucko.spark.api.Spark;
 import me.lucko.spark.api.SparkProvider;
 import me.lucko.spark.api.statistic.StatisticWindow;
@@ -24,6 +23,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import rod.sentryx.util.CC;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
@@ -31,13 +32,17 @@ import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class ServerGui implements CommandExecutor, Listener {
 
-
     private static final int REFRESH_INTERVAL = 20; // Refresh every 3 seconds (20 ticks * 3 seconds)
     private static final int GUI_SIZE = 9;
-
+    private static final String API_KEY = ""; // Add Your Own Pastebin API Key
+    private static final String API_URL = "https://pastebin.com/api/api_post.php";
 
     private final JavaPlugin plugin;
 
@@ -77,8 +82,13 @@ public class ServerGui implements CommandExecutor, Listener {
         //GETTING THE CPU USAGE HERE
         DoubleStatistic<StatisticWindow.CpuUsage> cpuUsage = spark.cpuSystem();
         DoubleStatistic<StatisticWindow.CpuUsage> cpuProcess = spark.cpuProcess();
-        double processlastMin = cpuProcess.poll(StatisticWindow.CpuUsage.SECONDS_10);
-        double sysLastMin = cpuUsage.poll(StatisticWindow.CpuUsage.SECONDS_10);
+
+        // Poll CPU usage values
+        double processLast10s = cpuProcess.poll(StatisticWindow.CpuUsage.SECONDS_10);
+        double sysLast10s = cpuUsage.poll(StatisticWindow.CpuUsage.SECONDS_10);
+
+        // Format the CPU usage values with 2 decimal places
+        String formattedCpuUsage = String.format("%.2f%%/%.2f%%", sysLast10s, processLast10s);
 
         //BUKKIT SERVER INFORMATION
         String serverName = server.getVersion();
@@ -105,14 +115,14 @@ public class ServerGui implements CommandExecutor, Listener {
                 + "\n" + ChatColor.YELLOW + "Current ping" + ChatColor.WHITE + ": " + ChatColor.GREEN + pingserver
                 + "\n "
                 + " \n" + ChatColor.YELLOW + "CPU/RAM info" + ChatColor.WHITE + ": " + ChatColor.GREEN
-                + "\n" + ChatColor.YELLOW + "Process/System load" + ChatColor.WHITE + ": " + ChatColor.GREEN + processlastMin + "% " + sysLastMin + "%"
+                + "\n" + ChatColor.YELLOW + "System/Process" + ChatColor.WHITE + ": " + ChatColor.GREEN + formattedCpuUsage
                 + "\n" + ChatColor.YELLOW + "Total threads" + ChatColor.WHITE + ": " + ChatColor.GREEN + allThreads
                 + "\n" + ChatColor.YELLOW + "Memory usage" + ChatColor.WHITE + ": " + ChatColor.GREEN + memUsed + ChatColor.WHITE + "/" + ChatColor.RED + memMax;
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY + "Click to view server information.");
 
-     // Split the serverInfo string into lines and add each line to the lore
+        // Split the serverInfo string into lines and add each line to the lore
         Collections.addAll(lore, serverInfo.split("\n"));
 
         buttonMeta.setLore(lore);
@@ -132,9 +142,100 @@ public class ServerGui implements CommandExecutor, Listener {
 
             if (clickedItem != null && clickedItem.getType() == Material.COMMAND_BLOCK_MINECART) {
                 player.closeInventory();
-                player.sendMessage("pastelink soon"); //Change for later gonna make it open a pastelink with the server info
+
+                // Create paste and get the URL
+                String pastebinUrl = createPastebinPaste(getServerInfo());
+                player.sendMessage("Here is the link to your server information: " + pastebinUrl);
             }
         }
+    }
+
+    private String createPastebinPaste(String pasteText) {
+        try {
+            String pasteName = URLEncoder.encode("Server Info", "UTF-8");
+            String pasteCode = URLEncoder.encode(pasteText, "UTF-8");
+            String postData = String.format("api_dev_key=%s&api_option=paste&api_paste_code=%s&api_paste_name=%s&api_paste_expire_date=10M&api_paste_format=text",
+                    API_KEY, pasteCode, pasteName);
+
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(postData.getBytes("UTF-8"));
+                os.flush();
+            }
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+
+            reader.close();
+
+            return response.toString(); // This should return the URL of the paste
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error creating paste.";
+        }
+    }
+
+    private String getServerInfo() {
+        Spark spark = SparkProvider.get();
+        Server server = Bukkit.getServer();
+
+        //GETTING THE TPS HERE
+        DoubleStatistic<StatisticWindow.TicksPerSecond> tpsx = spark.tps();
+        assert tpsx != null;
+        String tpsformatted = String.format("%.2f", tpsx.poll(StatisticWindow.TicksPerSecond.SECONDS_5));
+
+        //GETTING THE MSPT HERE
+        GenericStatistic<DoubleAverageInfo, StatisticWindow.MillisPerTick> sparkmspt = spark.mspt();
+        DoubleAverageInfo mspt = sparkmspt.poll(StatisticWindow.MillisPerTick.SECONDS_10);
+        double translatedmspt = mspt.mean();
+        String formattedmspt = String.format("%.2f", translatedmspt);
+
+        //GETTING THE CPU USAGE HERE
+        DoubleStatistic<StatisticWindow.CpuUsage> cpuUsage = spark.cpuSystem();
+        DoubleStatistic<StatisticWindow.CpuUsage> cpuProcess = spark.cpuProcess();
+
+        // Poll CPU usage values
+        double processLast10s = cpuProcess.poll(StatisticWindow.CpuUsage.SECONDS_10);
+        double sysLast10s = cpuUsage.poll(StatisticWindow.CpuUsage.SECONDS_10);
+
+        // Format the CPU usage values with 2 decimal places
+        String formattedCpuUsage = String.format("%.2f%%/%.2f%%", sysLast10s, processLast10s);
+
+        //BUKKIT SERVER INFORMATION
+        String serverName = server.getVersion();
+        int maxPlayers = server.getMaxPlayers();
+        int onlinePlayers = server.getOnlinePlayers().size();
+        String pw = Bukkit.getWorlds().get(0).getName();
+        int pingserver = Bukkit.getPlayer(Bukkit.getOnlinePlayers().iterator().next().getUniqueId()).getPing(); // Just an example
+
+        //JAVA SERVER INFO
+        OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+        int allThreads = osBean.getAvailableProcessors();
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage memoryUsage = memoryBean.getHeapMemoryUsage();
+
+        final long memMax = memoryUsage.getMax() / (1024 * 1024);
+        final long memUsed = memoryUsage.getUsed() / (1024 * 1024);
+
+        return "Server Name: " + serverName
+                + "\nOnline players: " + onlinePlayers + "/" + maxPlayers
+                + "\nEntities count: " + server.getWorld(pw).getEntities().size()
+                + "\nCurrent TPS: " + tpsformatted
+                + "\nCurrent MSPT: " + formattedmspt
+                + "\nCurrent Ping: " + pingserver
+                + "\nCPU/Memory info:"
+                + "\nSystem/Process CPU Usage: " + formattedCpuUsage
+                + "\nTotal Threads: " + allThreads
+                + "\nMemory Usage: " + memUsed + "/" + memMax + " MB";
     }
 
     @Override

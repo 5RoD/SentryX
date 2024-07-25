@@ -1,12 +1,14 @@
 package rod.sentryx;
 
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import rod.sentryx.commands.Essentials;
 import rod.sentryx.events.*;
 import rod.sentryx.security.AntiOP;
 import rod.sentryx.security.Auth;
+import rod.sentryx.security.AuthRegister;
 import rod.sentryx.util.ConfigManager;
 
 import java.util.logging.Level;
@@ -31,6 +33,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
     @Override
     public void onEnable() {
 
+
+
         ConfigManager configManager = new ConfigManager(this, "config.yml");
         configManager.loadConfig();
 
@@ -41,7 +45,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         AntiOP antiOP = new AntiOP(this);
         antiOP.startOpCheckTask();
 
-        getLogger().log(Level.SEVERE, "5RoD Shit Plugin has loaded!");
+        getLogger().log(Level.SEVERE, "SentryX has loaded!");
         getServer().getPluginManager().registerEvents(new ServerGui(this), this);
         getServer().getPluginManager().registerEvents(bossBar, this);
         getServer().getPluginManager().registerEvents(joinMessage, this);
@@ -53,6 +57,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
         getCommand("gmc").setExecutor(essX);
+        getCommand("auth").setExecutor(Auth);
+        getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
         getCommand("servergui").setExecutor(ServerGui);
         getCommand("tps").setExecutor(essX);
         getCommand("server").setExecutor(essX);
@@ -64,6 +70,11 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("clearchat").setExecutor(essX);
         getCommand("more").setExecutor(essX);
 
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().log(Level.SEVERE, "Sentry has successfully shutdown");
     }
 
 }

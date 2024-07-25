@@ -6,7 +6,9 @@ commands:
   gmc:
     description: Changes game mode to creative
   servergui:
-    description: Opens server GUI
+    description: Opens server info GUI
+  ping:
+    description: Shows your ping
   tps:
     description: Displays TPS
   server:
@@ -25,3 +27,7 @@ commands:
     description: Clears the chat
   more:
     description: Gives more of the item in hand
+  auth:
+    description: auth you
+  authregister:
+    description: register with password

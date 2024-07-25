@@ -136,7 +136,6 @@ public class Essentials implements CommandExecutor, Listener {
                 break;
 
             case "ping":
-            case "lag":
                 int ping = player.getPing();
                 if (ping <= 60) {
                     player.sendMessage(CC.translate("&ePing&f: &a" + ping + "&aYour ping is amazing!"));
@@ -158,7 +157,8 @@ public class Essentials implements CommandExecutor, Listener {
                 double sparktpsformatted5s = sparkTps.poll(StatisticWindow.TicksPerSecond.SECONDS_5);
                 double sparktpsformatted1m = sparkTps.poll(StatisticWindow.TicksPerSecond.MINUTES_1);
 
-                String formattedTps = String.format("%.2f (5s), %.2f (1m)" + sparktpsformatted5s + sparktpsformatted1m);
+
+                String formattedTps = String.format("%.2f (5s), %.2f (1m)", sparktpsformatted5s, sparktpsformatted1m);
 
                 if (sparktpsformatted5s >= 19.2) {
                     player.sendMessage(CC.translate("&eCurrent TPS&f: &a" + formattedTps + " &eThe server is running: &aSmoothly!"));
@@ -168,7 +168,6 @@ public class Essentials implements CommandExecutor, Listener {
                     player.sendMessage(CC.translate("&eCurrent TPS&f: &c" + formattedTps + " &eThe server is running: &cLaggy!!"));
                 }
                 break;
-
         }
         return false;
     }
