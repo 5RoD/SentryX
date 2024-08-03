@@ -2,13 +2,14 @@ Security plugin!
 
 
 Security features:
-- AntiOP
 - TPSCommand
 - Server info
-- Login System 50% done
+- Login System 60% done
 - Soon more will be added!
   
   Bs features:
+  - stats
+  - resetstats
   - gmc
   - gms
   - gma
