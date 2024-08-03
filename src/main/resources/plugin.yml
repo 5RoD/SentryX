@@ -31,3 +31,11 @@ commands:
     description: auth you
   authregister:
     description: register with password
+  authreset:
+    description: register with password
+  stats:
+    description: View a player's stats
+    usage: /stats <playername>
+  resetstats:
+    description: Reset a player's stats
+    usage: /resetstats <playername>

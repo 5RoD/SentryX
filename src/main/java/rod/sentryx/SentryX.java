@@ -1,12 +1,11 @@
 package rod.sentryx;
 
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import rod.sentryx.commands.Essentials;
+import rod.sentryx.commands.Stats;
 import rod.sentryx.events.*;
-import rod.sentryx.security.AntiOP;
 import rod.sentryx.security.Auth;
 import rod.sentryx.security.AuthRegister;
 import rod.sentryx.util.ConfigManager;
@@ -23,6 +22,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
     private final XPMultiplier XPMultiplier = new XPMultiplier();
     private final Auth Auth = new Auth();
     private final DeathMessage DeathMessage = new DeathMessage();
+    private final EntityTracker entityTracker = new EntityTracker();
+    private final Stats stats = new Stats(entityTracker);
     private final ServerGui ServerGui = new ServerGui(this);
 
 
@@ -35,15 +36,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
 
-        ConfigManager configManager = new ConfigManager(this, "config.yml");
-        configManager.loadConfig();
-
         ConfigManager permissions = new ConfigManager(this, "permissions.yml");
-        configManager.loadPermissionsFile();
 
-        // start op check bruh
-        AntiOP antiOP = new AntiOP(this);
-        antiOP.startOpCheckTask();
 
         getLogger().log(Level.SEVERE, "SentryX has loaded!");
         getServer().getPluginManager().registerEvents(new ServerGui(this), this);
@@ -53,12 +47,17 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getServer().getPluginManager().registerEvents(XPMultiplier, this);
         getServer().getPluginManager().registerEvents(DeathMessage, this);
         getServer().getPluginManager().registerEvents(Auth, this);
+        getServer().getPluginManager().registerEvents(entityTracker, this);
+
 
 
 
         getCommand("gmc").setExecutor(essX);
+        getCommand("stats").setExecutor(stats);
+        getCommand("resetstats").setExecutor(stats);
         getCommand("auth").setExecutor(Auth);
         getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
+        getCommand("authreset").setExecutor(Auth);
         getCommand("servergui").setExecutor(ServerGui);
         getCommand("tps").setExecutor(essX);
         getCommand("server").setExecutor(essX);

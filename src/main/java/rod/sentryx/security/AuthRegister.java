@@ -63,12 +63,16 @@ public class AuthRegister implements CommandExecutor {
         Player player = (Player) sender;
         String commandLabel = label.toLowerCase();
 
+
+
         if ("authregister".equals(commandLabel)) {
             return handleAuthRegister(player, args);
         }
 
         return true;
     }
+
+
 
     private boolean handleAuthRegister(Player player, String[] args) {
         if (player.hasPermission("rod.admin") && args.length != 1) {
@@ -99,6 +103,9 @@ public class AuthRegister implements CommandExecutor {
         }
         return true;
     }
+
+
+
 
     private void savePassword(UUID playerUUID, String password) {
         passwordsConfig.set(playerUUID.toString(), password);
