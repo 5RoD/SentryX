@@ -16,12 +16,14 @@ Security features:
   - gmsp
   - feed
   - heal
+  - infiniteelytra (makes your elytra go forever without fireworks!)
   - more (64x's the item in ur hand)
   - DeathMessage
   - JoinMessage
   - SleepBar (Bossbar when u sleep)
   - TamedProtection (Your tamed animals wont die to any damage)
   - XPMultiplier (doubles your vanilla xp)
+    
     
 
 
