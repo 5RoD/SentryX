@@ -39,3 +39,6 @@ commands:
   resetstats:
     description: Reset a player's stats
     usage: /resetstats <playername>
+  infiniteelytra:
+    description: Gives you faster + infinte elytra
+    usage: /infiniteelytra

@@ -51,7 +51,7 @@ public class EntityTracker implements Listener {
         stats[1]++;
     }
 
-    // This method is called when a PlayerLoginEvent occurs (when a player logs in)
+    // This method is called when a PlayerJoinEvent occurs (when a player joins)
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         // Get the player who triggered the event
@@ -61,7 +61,7 @@ public class EntityTracker implements Listener {
 
         // If the player doesn't have any statistics yet
         if (!playerStats.containsKey(playerId)) {
-            // Add a new entry to the map with their UUID and a new integer array [0, 0]
+            // Add a new entry to the map with their UUID and a new integer array [0, 0], cuz they dont have one by default so we gotta give them one :)
             playerStats.put(playerId, new int[]{0, 0});
         }
     }

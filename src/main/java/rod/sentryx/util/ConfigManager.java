@@ -12,7 +12,6 @@ public class ConfigManager {
 
     public JavaPlugin plugin;
     public FileConfiguration config;
-    public String ConfigName = "config.yml";
     public String Permissions = "permissions.yml";
 
 
@@ -23,15 +22,6 @@ public class ConfigManager {
     }
 
 
-    public void loadConfig() {
-
-        File configFile = new File(plugin.getDataFolder(), ConfigName);
-        if (!configFile.exists()) {
-            plugin.saveResource(ConfigName, false);
-
-        }
-        config = YamlConfiguration.loadConfiguration(configFile);
-    }
         public void loadPermissionsFile() {
 
             File PermsFile = new File(plugin.getDataFolder(), Permissions);
@@ -42,11 +32,5 @@ public class ConfigManager {
         config = YamlConfiguration.loadConfiguration(PermsFile);
     }
 
-    public List<String> getOPList(String key) {
-        if (config == null) {
-            plugin.getLogger().warning("Config is null!");
-            return Collections.emptyList();
-        }
-        return config.getStringList(key);
-    }
+
 }

@@ -28,11 +28,6 @@ public class Stats implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        // Check if the player has admin permissions
-        if (!player.hasPermission("rod.admin")) {
-            player.sendMessage(CC.translate("&cYou do not have permission to run this command!"));
-            return true;
-        }
 
         switch (label.toLowerCase()) {
             case "stats":
@@ -96,6 +91,6 @@ public class Stats implements CommandExecutor {
                 break;
         }
 
-        return true;  // Return true to indicate that the command was handled
+        return true;
     }
 }
