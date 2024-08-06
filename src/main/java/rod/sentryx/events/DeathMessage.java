@@ -18,7 +18,7 @@ public class DeathMessage implements Listener {
         EntityDamageEvent damageEvent = player.getLastDamageCause();
 
         if (damageEvent != null) {
-            EntityDamageEvent.DamageCause cause = damageEvent.getCause();
+
             String deathMessage;
 
             if (damageEvent instanceof EntityDamageByEntityEvent) {
