@@ -67,7 +67,7 @@ public class ElytraFun implements CommandExecutor, Listener {
         // Check if the sender is a player
         if (!(sender instanceof Player)) {
             sender.sendMessage(CC.translate("&cOnly players are allowed to run this command"));
-            return true;
+            return false;
         }
 
         Player player = (Player) sender;
@@ -80,8 +80,8 @@ public class ElytraFun implements CommandExecutor, Listener {
             case "infiniteelytra":
 
                 if (!sender.hasPermission("rod.fun")) {
-                    sender.sendMessage("You don't have permission to use this command.");
-                    return true;
+                    sender.sendMessage(NO_PERMISSION_MESSAGE);
+                    return false;
                 }
 
                 if (player.hasPermission("rod.fun") && !elytraFly.contains(playerUUID)) {

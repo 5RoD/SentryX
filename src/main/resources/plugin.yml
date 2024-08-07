@@ -39,6 +39,9 @@ commands:
   resetstats:
     description: Reset a player's stats
     usage: /resetstats <playername>
+  topstats:
+    description: View the top players
+    usage: /topstats
   infiniteelytra:
     description: Gives you faster + infinte elytra
     usage: /infiniteelytra

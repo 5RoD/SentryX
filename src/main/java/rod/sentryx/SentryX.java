@@ -59,6 +59,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("gmc").setExecutor(essX);
         getCommand("stats").setExecutor(stats);
         getCommand("resetstats").setExecutor(stats);
+        getCommand("topstats").setExecutor(stats);
         getCommand("auth").setExecutor(Auth);
         getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
         getCommand("authreset").setExecutor(Auth);
