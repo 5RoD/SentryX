@@ -10,6 +10,7 @@ Security features:
   Bs features:
   - stats
   - resetstats
+  - topstats
   - gmc
   - gms
   - gma
