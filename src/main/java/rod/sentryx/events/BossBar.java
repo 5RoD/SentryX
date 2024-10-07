@@ -3,7 +3,6 @@ package rod.sentryx.events;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,14 +12,14 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 /**
  * Manages the visibility of a BossBar based on player bed events.
  */
-public class bossBar implements Listener {
+public class BossBar implements Listener {
 
-    private final BossBar bossBar;
+    private final org.bukkit.boss.BossBar bossBar;
 
     /**
      * Creates a new instance of the BossBarManager.
      */
-    public bossBar() {
+    public BossBar() {
         bossBar = Bukkit.createBossBar("You are sleeping now!", BarColor.GREEN, BarStyle.SOLID);
     }
 

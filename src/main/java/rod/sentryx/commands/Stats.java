@@ -64,12 +64,13 @@ public class Stats implements CommandExecutor {
                 // Check if the target player is online
                 if (statsTarget != null) {
                     UUID playerId = statsTarget.getUniqueId();
-                    int[] stats = entityTracker.getHashStats().getOrDefault(playerId, new int[]{0, 0});
+                    int[] stats = entityTracker.getHashStats().getOrDefault(playerId, new int[]{0, 0, 0});
 
                     // Send the stats to the requesting player
-                    player.sendMessage(CC.translate("&a" + statsName + "'s stats:\n" +
-                            "&fBlocks mined: &a" + stats[0] + "\n" +
-                            "&fBlocks placed: &a" + stats[1]));
+                    player.sendMessage(CC.translate("&e" + statsName + "'s stats:\n" +
+                            "&fBlocks mined: &a" + stats[0] +
+                            "\n&fBlocks placed: &a" + stats[1] +
+                            "\n&fDeaths: &a" + stats[2]));
                 } else {
                     player.sendMessage(CC.translate("&cPlayer not found. Make sure the player is online."));
                 }
@@ -96,8 +97,8 @@ public class Stats implements CommandExecutor {
                 if (resetStats != null) {
                     UUID playerId = resetStats.getUniqueId();
                     // Reset the stats of the target player
-                    entityTracker.getHashStats().put(playerId, new int[]{0, 0});
-                    player.sendMessage(CC.translate("&aStats of " + resetName + " have been reset!"));
+                    entityTracker.getHashStats().put(playerId, new int[]{0, 0, 0});
+                    player.sendMessage(CC.translate("&Stats of " + resetName + " have been reset!"));
                 } else {
                     player.sendMessage(CC.translate("&cPlayer not found. Make sure the player is online."));
                 }
@@ -126,8 +127,8 @@ public class Stats implements CommandExecutor {
                         break;
                     }
                     String playerName = entry.getKey();   // Player's name
-                    int[] playerScore = entry.getValue(); // Stats array [blocks mined, blocks placed]
-                    player.sendMessage(CC.translate("&f" + playerName + ":&a " + playerScore[0] + " &fblocks mined, &a" + playerScore[1] + " &fblocks placed"));
+                    int[] playerScore = entry.getValue(); // Stats array [blocks mined, blocks placed, deaths]
+                    player.sendMessage(CC.translate("&e" + playerName + " \n&fBlocks mined: &a" + playerScore[0] + " \n&fBlocks placed: &a" + playerScore[1] + " \n&fDeaths: &a" + playerScore[2]));
                 }
                 break;
 

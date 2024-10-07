@@ -1,6 +1,6 @@
 name: SentryX
 main: rod.sentryx.SentryX
-version: 1.0-SNAPSHOT
+version: 1.8-SNAPSHOT
 api-version: 1.20
 commands:
   gmc:
@@ -45,3 +45,9 @@ commands:
   infiniteelytra:
     description: Gives you faster + infinte elytra
     usage: /infiniteelytra
+  rtp:
+    description: teleports you
+    usage: /rtp
+  loadchunks:
+    description: loadsChunks
+    usage: /loadchunks

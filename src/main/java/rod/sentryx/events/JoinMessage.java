@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import rod.sentryx.util.CC;
 
 public class JoinMessage implements Listener {
 
@@ -15,7 +16,7 @@ public class JoinMessage implements Listener {
     private void Join(PlayerJoinEvent e) {
 
         Player player = e.getPlayer();
-        e.setJoinMessage(ChatColor.GRAY + "(" + ChatColor.GREEN + "+" + ChatColor.GRAY + ") " + ChatColor.GREEN + player.getName());
+        e.setJoinMessage(CC.translate(("&7(" + "&a+" + "&7) " + "&a" + player.getName())));
 
     }
 
@@ -23,10 +24,8 @@ public class JoinMessage implements Listener {
     private void Leave(PlayerQuitEvent e) {
 
         Player player = e.getPlayer();
-        e.setQuitMessage(ChatColor.GRAY + "(" + ChatColor.RED + "-" + ChatColor.GRAY + ") " + ChatColor.GREEN + player.getName());
+        e.setQuitMessage("&7(" + "&c-" + "&7) " + "&a" + player.getName());
 
     }
-
-
 
 }

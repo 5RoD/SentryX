@@ -4,7 +4,7 @@
   <groupId>rod</groupId>
   <artifactId>SentryX</artifactId>
   <name>SentryX</name>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.8-SNAPSHOT</version>
   <build>
     <resources>
       <resource>

@@ -20,7 +20,7 @@ public class AuthRegister implements CommandExecutor {
     private static final String NO_PERMISSION_MESSAGE = CC.translate("&cYou do not have permission to run this command!");
     private static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#%$&!])[a-zA-Z\\d@#%$&!]{8,}$";
     private static final String PASSWORD_TOO_SHORT_MESSAGE = CC.translate("&cYour password must be at least 8 characters long, " +
-            "contain at least one letter, one number, and one special character (@, #, %, $, &, !).");
+            "contain at least one letter, one number, and one special character (ex: myPassword123@");
 
     private File passwordFile;
     private FileConfiguration passwordsConfig;
@@ -74,13 +74,14 @@ public class AuthRegister implements CommandExecutor {
 
 
 
-    private boolean handleAuthRegister(Player player, String[] args) {
-        if (player.hasPermission("rod.admin") && args.length != 1) {
+    private boolean handleAuthRegister(Player player, String[] label) {
+        if (player.hasPermission("rod.admin") && label.length != 1) {
             player.sendMessage(CC.translate("&cPlease provide a password using &a/authregister <password>"));
             return true;
         }
 
-        String password = args[0];
+        String password = label[0];
+
 
         if (!password.matches(PASSWORD_REGEX)) {
             player.sendMessage(PASSWORD_TOO_SHORT_MESSAGE);

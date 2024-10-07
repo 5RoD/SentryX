@@ -1,5 +1,6 @@
 package rod.sentryx.fun;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,6 +34,7 @@ public class ElytraFun implements CommandExecutor, Listener {
 
         if (player.isGliding() && elytraFly.contains(playerUUID)) {
             player.setVelocity(player.getLocation().getDirection().toBlockVector().multiply(1.5F));
+
         }
 
     }

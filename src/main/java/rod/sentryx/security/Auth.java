@@ -227,6 +227,11 @@ public class Auth implements CommandExecutor, Listener {
             if (!command.startsWith("/auth") && !command.startsWith("/authregister")) {
                 player.sendMessage(CC.translate("&cYou must authenticate first with &a/auth &cor register with &a/authregister."));
                 e.setCancelled(true);  // Cancel the command
+            } else if (command.startsWith("/authreset")) {
+                e.setCancelled(true);
+                player.sendMessage(CC.translate("&cYou must authenticate first with &a/auth &cor register with &a/authregister."));
+            } else {
+                player.sendMessage(CC.translate("&cAn error occurred contact the admins"));
             }
         }
     }

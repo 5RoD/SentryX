@@ -1,12 +1,16 @@
 package rod.sentryx.events;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -16,8 +20,13 @@ public class EntityTracker implements Listener {
 
     // This HashMap stores player statistics, mapping each player's UUID to an integer array
     // The integer array has two elements: [0] for blocks mined, [1] for blocks placed
-    private final HashMap<UUID, int[]> hashStats = new HashMap<>();
-    private final TreeMap<String, int[]> treeStats = new TreeMap<>();
+    private HashMap<UUID, int[]> hashStats = new HashMap<>();
+    private TreeMap<String, int[]> treeStats = new TreeMap<>();
+
+
+
+
+
 
     /**
      * Getter method to access the HashMap containing player statistics by UUID.
@@ -37,6 +46,9 @@ public class EntityTracker implements Listener {
         return treeStats;
     }
 
+
+
+
     /**
      * This method is called when a BlockBreakEvent occurs (when a player mines a block).
      *
@@ -49,9 +61,10 @@ public class EntityTracker implements Listener {
         // Get the player's unique ID
         UUID playerId = player.getUniqueId();
 
+
         // Get the player's current statistics (or a new array if they don't have any yet)
-        int[] hashStats = this.hashStats.containsKey(playerId) ? this.hashStats.get(playerId) : new int[]{0, 0};
-        int[] treeStats = this.treeStats.containsKey(player.getName()) ? this.treeStats.get(player.getName()) : new int[]{0, 0};
+        int[] hashStats = this.hashStats.containsKey(playerId) ? this.hashStats.get(playerId) : new int[]{0, 0, 0};
+        int[] treeStats = this.treeStats.containsKey(player.getName()) ? this.treeStats.get(player.getName()) : new int[]{0, 0, 0};
 
         // Increment the first element of the array (blocks mined)
         hashStats[0]++;
@@ -83,6 +96,29 @@ public class EntityTracker implements Listener {
         this.treeStats.put(player.getName(), treeStats);
     }
 
+
+    /**
+     * This method is called when a PlayerDeathEvent occurs (when a player dies).
+     *
+     * @param e The PlayerDeathEvent that contains information about the event.
+     */
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+
+        Player player = e.getEntity();
+
+        UUID playerId = player.getUniqueId();
+
+        int[] hashStats = this.hashStats.containsKey(playerId) ? this.hashStats.get(playerId) : new int[]{0, 0, 0};
+        int[] treeStats = this.treeStats.containsKey(player.getName()) ? this.treeStats.get(player.getName()) : new int[]{0, 0, 0};
+
+        hashStats[2]++;
+        treeStats[2]++;
+        this.hashStats.put(playerId, hashStats);
+        this.treeStats.put(player.getName(), treeStats);
+
+    }
+
     /**
      * This method is called when a PlayerJoinEvent occurs (when a player joins).
      *
@@ -97,10 +133,10 @@ public class EntityTracker implements Listener {
 
         // If the player's stats do not already exist, create new entries with initial values
         if (!hashStats.containsKey(playerId) && !treeStats.containsKey(player.getName())) {
-            // Add a new entry to the HashMap with their UUID and a new integer array [0, 0]
-            this.hashStats.put(playerId, new int[]{0, 0});
-            // Add a new entry to the TreeMap with their name and a new integer array [0, 0]
-            this.treeStats.put(player.getName(), new int[]{0, 0});
+            // Add a new entry to the HashMap with their UUID and a new integer array [0, 0, 0]
+            this.hashStats.put(playerId, new int[]{0, 0, 0});
+            // Add a new entry to the TreeMap with their name and a new integer array [0, 0, 0]
+            this.treeStats.put(player.getName(), new int[]{0, 0, 0});
         }
     }
 }
