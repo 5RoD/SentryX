@@ -1,5 +1,7 @@
 package rod.sentryx;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -37,6 +39,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
 
+
     @Override
     public void onEnable() {
 
@@ -47,6 +50,8 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
         getLogger().log(Level.SEVERE, "SentryX 1.8 has loaded!");
+
+
 
         getServer().getPluginManager().registerEvents(new RtpManager(), this);
         getServer().getPluginManager().registerEvents(new ServerGui(this), this);
@@ -84,6 +89,10 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("clearchat").setExecutor(essX);
         getCommand("more").setExecutor(essX);
         getCommand("infiniteelytra").setExecutor(elytraFun);
+
+        for (World world : Bukkit.getWorlds()) {
+            RtpManager.cacheChunks(world);
+        }
 
     }
 

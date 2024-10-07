@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import rod.sentryx.events.RtpManager;
 import rod.sentryx.util.CC;
+import rod.sentryx.util.CooldownManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Rtp implements CommandExecutor, Listener {
 
     private final RtpManager rtpManager; // Store reference to RtpManager
     private final String PERMISSION = "sentryx.rtp";
+    private CooldownManager cooldownManager = new CooldownManager();
 //    private final int attempts = 1;
 //    private final int max_attempts = 10;
 
@@ -53,21 +55,29 @@ public class Rtp implements CommandExecutor, Listener {
 
         switch (label.toLowerCase()) {
             case "rtp":
-                if (playerWorld == null) {
-                    player.sendMessage(CC.translate("&cYou are not in a world >> &eERROR NOT VALID WORLD"));
-                } else {
-                    RandomTeleport(player, playerWorld);
+                if (cooldownManager.isOnCooldown(player)) {
                     return true;
                 }
 
-            case "loadchunks":
-                if (playerWorld != null) {
-
-                    rtpManager.cacheChunks(playerWorld, player);
+                if (playerWorld == null) {
+                    player.sendMessage(CC.translate("&cYou are not in a world >> &eERROR NOT VALID WORLD"));
+                } else {
+                    cooldownManager.setCooldown(player);
+                    RandomTeleport(player, playerWorld);
+                    return true;
                 }
+                break;
+
+            case "loadchunks":
+                if (cooldownManager.isOnCooldown(player)) {
+                    return true;
+
+                } else if (playerWorld != null) {
+                   cooldownManager.setCooldown(player);
+                    rtpManager.cacheChunks(playerWorld);
+                }
+                break;
         }
-
-
         return true;
     }
 
