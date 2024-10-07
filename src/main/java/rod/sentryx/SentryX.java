@@ -56,7 +56,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getServer().getPluginManager().registerEvents(tamedprotection, this);
         getServer().getPluginManager().registerEvents(XPMultiplier, this);
         getServer().getPluginManager().registerEvents(DeathMessage, this);
-        //getServer().getPluginManager().registerEvents(Auth, this);
+        getServer().getPluginManager().registerEvents(Auth, this);
         getServer().getPluginManager().registerEvents(entityTracker, this);
         getServer().getPluginManager().registerEvents(elytraFun, this);
 
@@ -70,7 +70,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("stats").setExecutor(stats);
         getCommand("resetstats").setExecutor(stats);
         getCommand("topstats").setExecutor(stats);
-        //getCommand("auth").setExecutor(Auth);
+        getCommand("auth").setExecutor(Auth);
         getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
         getCommand("authreset").setExecutor(Auth);
         getCommand("servergui").setExecutor(ServerGui);
