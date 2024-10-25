@@ -1,7 +1,6 @@
 package rod.sentryx.commands;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,8 +17,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Rtp implements CommandExecutor, Listener {
-
-    public List<String> chunkList = new ArrayList<>();
 
     private final RtpManager rtpManager; // Store reference to RtpManager
     private final String PERMISSION = "sentryx.rtp";
@@ -74,7 +71,7 @@ public class Rtp implements CommandExecutor, Listener {
 
                 } else if (playerWorld != null) {
                    cooldownManager.setCooldown(player);
-                    rtpManager.cacheChunks(playerWorld);
+                    rtpManager.cacheChunks(playerWorld, playerLoc);
                 }
                 break;
         }
@@ -86,7 +83,7 @@ public class Rtp implements CommandExecutor, Listener {
 
 
 //        while (attempts <= max_attempts) {
-        if (rtpManager.chunkList.isEmpty()) {
+        if (rtpManager.sortedChunks.isEmpty()) {
             player.sendMessage(CC.translate("&cThere is no available spots!"));
             return;
 
@@ -95,10 +92,10 @@ public class Rtp implements CommandExecutor, Listener {
             Random random = new Random();
 
             // Select a random index from the chunkList
-            int randomIndex = random.nextInt(rtpManager.chunkList.size());
+            int randomIndex = random.nextInt(rtpManager.sortedChunks.size());
 
             // Get the random chunk coordinates
-            String selectedChunk = rtpManager.chunkList.get(randomIndex);
+            String selectedChunk = rtpManager.sortedChunks.get(randomIndex);
 
             //Splits the chunks
             String[] cords = selectedChunk.split(" ");
