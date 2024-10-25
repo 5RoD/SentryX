@@ -11,7 +11,7 @@ import rod.sentryx.util.CC;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Stats implements CommandExecutor {
+public class StatsCMD implements CommandExecutor {
 
     private final EntityTracker entityTracker;
 
@@ -20,7 +20,7 @@ public class Stats implements CommandExecutor {
      *
      * @param entityTracker The EntityTracker instance that keeps track of player statistics.
      */
-    public Stats(EntityTracker entityTracker) {
+    public StatsCMD(EntityTracker entityTracker) {
         this.entityTracker = entityTracker;
     }
 

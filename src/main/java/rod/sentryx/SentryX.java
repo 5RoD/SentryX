@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import rod.sentryx.commands.Essentials;
-import rod.sentryx.commands.Rtp;
-import rod.sentryx.commands.Stats;
+import rod.sentryx.commands.FreezeCMD;
+import rod.sentryx.commands.RtpCMD;
+import rod.sentryx.commands.StatsCMD;
 import rod.sentryx.events.*;
 import rod.sentryx.fun.ElytraFun;
 import rod.sentryx.security.Auth;
@@ -21,19 +21,20 @@ import java.util.logging.Level;
 public final class SentryX extends JavaPlugin implements Listener, CommandExecutor {
 
     private final Essentials essX = new Essentials();
+    private final FreezeCMD freezeCMD = new FreezeCMD();
     private final ElytraFun elytraFun = new ElytraFun();
     private final TamedProtection tamedprotection = new TamedProtection();
     private final JoinMessage joinMessage = new JoinMessage();
     private final BossBar bossBar = new BossBar();
     private final XPMultiplier XPMultiplier = new XPMultiplier();
-    private final Auth Auth = new Auth();
+    //private final Auth Auth = new Auth();
     private final DeathMessage DeathMessage = new DeathMessage();
     private final EntityTracker entityTracker = new EntityTracker();
-    private final Stats stats = new Stats(entityTracker);
+    private final StatsCMD statsCMD = new StatsCMD(entityTracker);
     private final ServerGui ServerGui = new ServerGui(this);
 
     private final RtpManager RtpManager = new RtpManager();
-    private final Rtp rtp = new Rtp(RtpManager);
+    private final RtpCMD rtpCMD = new RtpCMD(RtpManager);
 
 
 
@@ -54,6 +55,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
         getServer().getPluginManager().registerEvents(new RtpManager(), this);
+        getServer().getPluginManager().registerEvents(new FreezeCMD(), this);
         getServer().getPluginManager().registerEvents(new ServerGui(this), this);
 
         getServer().getPluginManager().registerEvents(bossBar, this);
@@ -61,7 +63,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getServer().getPluginManager().registerEvents(tamedprotection, this);
         getServer().getPluginManager().registerEvents(XPMultiplier, this);
         getServer().getPluginManager().registerEvents(DeathMessage, this);
-        getServer().getPluginManager().registerEvents(Auth, this);
+        //getServer().getPluginManager().registerEvents(Auth, this);
         getServer().getPluginManager().registerEvents(entityTracker, this);
         getServer().getPluginManager().registerEvents(elytraFun, this);
 
@@ -70,14 +72,15 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
 
 
         getCommand("gmc").setExecutor(essX);
-        getCommand("rtp").setExecutor(rtp);
-        getCommand("loadchunks").setExecutor(rtp);
-        getCommand("stats").setExecutor(stats);
-        getCommand("resetstats").setExecutor(stats);
-        getCommand("topstats").setExecutor(stats);
-        getCommand("auth").setExecutor(Auth);
-        getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
-        getCommand("authreset").setExecutor(Auth);
+        getCommand("freeze").setExecutor(freezeCMD);
+        getCommand("rtp").setExecutor(rtpCMD);
+        getCommand("loadchunks").setExecutor(rtpCMD);
+        getCommand("stats").setExecutor(statsCMD);
+        getCommand("resetstats").setExecutor(statsCMD);
+        getCommand("topstats").setExecutor(statsCMD);
+        //getCommand("auth").setExecutor(Auth);
+        //getCommand("authregister").setExecutor(new AuthRegister(Auth.getAuthHash()));
+        //getCommand("authreset").setExecutor(Auth);
         getCommand("servergui").setExecutor(ServerGui);
         getCommand("tps").setExecutor(essX);
         getCommand("server").setExecutor(essX);
@@ -89,6 +92,7 @@ public final class SentryX extends JavaPlugin implements Listener, CommandExecut
         getCommand("clearchat").setExecutor(essX);
         getCommand("more").setExecutor(essX);
         getCommand("infiniteelytra").setExecutor(elytraFun);
+
 
         for (World world : Bukkit.getWorlds()) {
             RtpManager.cacheChunks(world);

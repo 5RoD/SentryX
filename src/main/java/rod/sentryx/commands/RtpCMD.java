@@ -12,11 +12,9 @@ import rod.sentryx.events.RtpManager;
 import rod.sentryx.util.CC;
 import rod.sentryx.util.CooldownManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class Rtp implements CommandExecutor, Listener {
+public class RtpCMD implements CommandExecutor, Listener {
 
     private final RtpManager rtpManager; // Store reference to RtpManager
     private final String PERMISSION = "sentryx.rtp";
@@ -25,7 +23,7 @@ public class Rtp implements CommandExecutor, Listener {
 //    private final int max_attempts = 10;
 
 
-    public Rtp(RtpManager rtpManager) {
+    public RtpCMD(RtpManager rtpManager) {
         this.rtpManager = rtpManager; // Initialize with the provided instance
     }
 
@@ -71,7 +69,7 @@ public class Rtp implements CommandExecutor, Listener {
 
                 } else if (playerWorld != null) {
                    cooldownManager.setCooldown(player);
-                    rtpManager.cacheChunks(playerWorld, playerLoc);
+                    rtpManager.cacheChunks(playerWorld);
                 }
                 break;
         }

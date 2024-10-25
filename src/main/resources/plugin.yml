@@ -27,13 +27,13 @@ commands:
     description: Clears the chat
   more:
     description: Gives more of the item in hand
-  auth:
-    description: auth you
-  authregister:
-    description: register with password
-  authreset:
-    description: register with password
-  stats:
+#  auth:
+#    description: auth you
+#  authregister:
+#    description: register with password
+#  authreset:
+#    description: register with password
+#  stats:
     description: View a player's stats
     usage: /stats <playername>
   resetstats:
@@ -51,3 +51,6 @@ commands:
   loadchunks:
     description: loadsChunks
     usage: /loadchunks
+  freeze:
+    description: freezes a player
+    usage: /freeze <playername>

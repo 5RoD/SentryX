@@ -2,11 +2,10 @@ package rod.sentryx.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import rod.sentryx.SentryX;
-import rod.sentryx.util.CC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class RtpManager implements Listener {
 
-    public List<String> chunkList = new ArrayList<>();
+    public List<String> sortedChunks = new ArrayList<>();
 
 
     public void cacheChunks(World world) {
@@ -34,7 +33,7 @@ public class RtpManager implements Listener {
                     for (Chunk chunk : chunks) {
                         int chunkX = chunk.getX();
                         int chunkZ = chunk.getZ();
-                        chunkList.add(chunkX + " " + chunkZ);
+                        sortedChunks.add(chunkX + " " + chunkZ);
                     }
                     // Bukkit.getLogger().info("Cached chunks: " + chunkList); // Debugging line
                 }
